@@ -13,6 +13,9 @@ platforms=("linux/amd64" "linux/arm64" "linux/arm/v7" "linux/arm/v6")
 package_name=$(cat Cargo.toml | grep 'name' | awk '{print $3}' | tr -d '"')
 version=$(cat Cargo.toml | grep 'version' | head -1 | awk '{print $3}' | tr -d '"')
 
+# Remove Cargo.lock
+rm -f Cargo.lock
+
 # Permissions for target folder
 chmod -R o+w target
 
