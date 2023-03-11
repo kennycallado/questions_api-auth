@@ -44,4 +44,6 @@ El directorio de servicios del módulo también puede contener por ejemplo, `hel
 
 ## TODO:
 
-Implementar origin_url from config
+- [X] Implementar origin_url from config
+- [ ] Implementar parámetro de configuración, migrations_run
+- [ ] Nuevo sistema para check claims
