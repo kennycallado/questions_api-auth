@@ -9,6 +9,7 @@
 
 platforms=("linux/amd64" "linux/arm64" "linux/arm/v7" "linux/arm/v6")
 
+# Get the package name and version from Cargo.toml
 package_name=$(cat Cargo.toml | grep 'name' | awk '{print $3}' | tr -d '"')
 version=$(cat Cargo.toml | grep 'version' | head -1 | awk '{print $3}' | tr -d '"')
 
@@ -19,9 +20,12 @@ chmod -R o+w target
 docker run --rm -it -v "$(pwd)":/home/rust/src ekidd/rust-musl-builder cargo build --release
 
 for platform in ${platforms[@]}; do
-  tag=$(echo "${platform//\//_}" | tr -d 'linux_' | xargs -I {} echo {})
   echo "Building docker image for: $platform."
 
+  # get the tag
+  tag=$(echo "${platform//\//_}" | tr -d 'linux_' | xargs -I {} echo {})
+
+  # build the image
   docker build --no-cache --pull \
     --platform ${platform} \
     -t kennycallado/${package_name}:${version}-${tag} \
@@ -60,4 +64,5 @@ docker rmi kennycallado/${package_name}:${version}-arm64
 docker rmi kennycallado/${package_name}:${version}-armv7
 docker rmi kennycallado/${package_name}:${version}-armv6
 
+# remove the manifest
 docker system prune -f
