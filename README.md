@@ -4,7 +4,11 @@
 
 ### Extender plantilla
 
+Acceder al repositorio en github y pulsar **Use this template**, **Create a new repository**. Una vez creado el repositorio puedes clonarlo localmente y continuar con el siguiente punto.
+
 ### Adaptar proyecto
+
+Algunos ficheros deben ser revisados y actualizados para cada proyecto derivado de base. En general están listados en la siguiente lista.
 
 #### Raíz del proyecto
 
@@ -44,6 +48,8 @@ El directorio de servicios del módulo también puede contener por ejemplo, `hel
 
 ## TODO:
 
+- [ ] Improve the README
 - [X] Implementar origin_url from config
 - [X] Implementar parámetro de configuración, migrations_run
 - [ ] Nuevo sistema para check claims
+- [X] Auto compile and build
