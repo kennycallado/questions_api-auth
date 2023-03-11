@@ -20,8 +20,6 @@ Algunos ficheros deben ser revisados y actualizados para cada proyecto derivado 
 - [ ] compose.yaml
   - Variables de entorno
   - Servicios extra
-- [ ] Containerfile
-  - Nombre del binario, viene desde Cargo.toml
 - [ ] Rocket.toml
   - Parámetros de configuración del proyecto
 
