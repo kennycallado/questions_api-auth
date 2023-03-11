@@ -4,6 +4,7 @@ use serde::Deserialize;
 #[serde(crate = "rocket::serde")]
 pub struct ConfigGetter {
     pub form_url: Option<String>,
+    pub migrations_run: Option<bool>,
     pub origin_url: Option<String>,
     pub profile_url: Option<String>,
     pub secret_key: Option<String>,
@@ -16,6 +17,13 @@ impl ConfigGetter {
             .extract::<ConfigGetter>()
             .unwrap()
             .form_url
+    }
+
+    pub fn get_migrations_run() -> Option<bool> {
+        rocket::Config::figment()
+            .extract::<ConfigGetter>()
+            .unwrap()
+            .migrations_run
     }
 
     pub fn get_origin_url() -> Option<String> {
