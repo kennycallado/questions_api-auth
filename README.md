@@ -4,7 +4,32 @@
 
 ### Extender plantilla
 
-Acceder al repositorio en github y pulsar **Use this template**, **Create a new repository**. Una vez creado el repositorio puedes clonarlo localmente y continuar con el siguiente punto.
+Acceder al repositorio en github y pulsar **Use this template**, **Create a new repository**. Una vez creado el repositorio puedes clonarlo localmente y seguir los siguientes pasos:
+
+1. a
+   ``` bash
+   git checkout -b base
+   ```
+1. b
+   ``` bash
+   git remote add base git@github.com:kennycallado/questions_api-base.git
+   ```
+1. c
+   ``` bash
+   git fetch base && git merge base
+   ```
+1. d **Quizá sobra**
+   ``` bash
+   git branch --set-upstream-to=base/main
+   ```
+1. e
+   ``` bash
+   git checkout main
+   ```
+1. Subir rama base a origin
+   ``` bash
+   git push origin base
+   ```
 
 ### Adaptar proyecto
 
