@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: <base>
 
   # auth_api:
-  #   image: kennycallado/uv-questions_api-auth:v0.1-amd64
+  #   image: kennycallado/questions_api-auth:v0.1-amd64
   #   extra_hosts:
   #     - "host.docker.internal:host-gateway"
   #   ports:
@@ -32,7 +32,7 @@ services:
   #     - profiles_api
 
   # profiles_api:
-  #   image: kennycallado/uv-questions_api-profiles:v0.1-amd64
+  #   image: kennycallado/questions_api-profiles:v0.1-amd64
   #   ports:
   #     - "8001:8000"
   #   expose:
@@ -45,7 +45,7 @@ services:
   #     - database
 
   # users_api:
-  #   image: kennycallado/uv-questions_api-users:v0.1-amd64
+  #   image: kennycallado/questions_api-users:v0.1-amd64
   #   ports:
   #     - "8002:8000"
   #   expose:
