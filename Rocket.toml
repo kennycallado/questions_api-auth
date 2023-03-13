@@ -1,0 +1,16 @@
+[default]
+ident = "questions_api-base"
+# address     = "0.0.0.0"
+port        = 8000
+# secret_key  = ""
+
+origin_url  = "http://localhost:8000"
+
+profile_url = "http://localhost:8001/api/v1/profile"
+user_url    = "http://localhost:8002/api/v1/user"
+form_url    = "http://localhost:8004/api/v1/form"
+
+migrations_run = false
+
+[default.databases.questions]
+url = "postgres://<base>:<base>@<localhost>/<base>"
