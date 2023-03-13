@@ -1,5 +1,5 @@
 [default]
-ident = "questions_api-base"
+ident = "questions_api-auth"
 # address     = "0.0.0.0"
 port        = 8000
 # secret_key  = ""
@@ -13,4 +13,4 @@ form_url    = "http://localhost:8004/api/v1/form"
 migrations_run = false
 
 [default.databases.questions]
-url = "postgres://<base>:<base>@<localhost>/<base>"
+url = "postgres://auth:auth@localhost/auth"
