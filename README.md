@@ -42,6 +42,8 @@ Algunos ficheros deben ser revisados y actualizados para cada proyecto derivado 
 - [ ] Cargo.toml
   - Nombre del paquete
   - Revisar dependencias
+- [ ] Containerfile
+  - Nombre del paquete desde Cargo.toml
 - [ ] compose.yaml
   - Variables de entorno
   - Servicios extra
