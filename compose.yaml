@@ -11,6 +11,7 @@ services:
       POSTGRES_DB: <base>
       POSTGRES_USER: <base>
       POSTGRES_PASSWORD: <base>
+    command: [ "docker-entrypoint.sh", "-c", "wal_level=logical" ]
 
   # auth_api:
   #   image: kennycallado/questions_api-auth:v0.1-amd64
@@ -32,30 +33,33 @@ services:
   #     - profiles_api
 
   # profiles_api:
-  #   image: kennycallado/questions_api-profiles:v0.1-amd64
+  #   image: kennycallado/q-api-profiles:latest
   #   ports:
   #     - "8001:8000"
   #   expose:
   #     - "8001:8000"
   #   environment:
-  #     - ROCKET_DATABASES={questions={url="postgres://forms:forms@database/forms"}}
+  #     - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
+  #     - ROCKET_MIGRATIONS_RUN=true
+  #     - ROCKET_SECRET_KEY="FCJWjbPWd7JqyPx4gUAN+GQusgHm8EGUwNit1RP4PvU="
+  #     - ROCKET_USER_URL="http://users_api:8002/api/v1/user"
   #   depends_on:
   #     - database
 
   # users_api:
-  #   image: kennycallado/questions_api-users:v0.1-amd64
+  #   image: kennycallado/q-api-users:latest
   #   ports:
   #     - "8002:8000"
   #   expose:
   #     - "8002:8000"
   #   environment:
-  #     - ROCKET_DATABASES={questions={url="postgres://forms:forms@database/forms"}}
+  #     - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
+  #     - ROCKET_MIGRATIONS_RUN=true
+  #     - ROCKET_SECRET_KEY="FCJWjbPWd7JqyPx4gUAN+GQusgHm8EGUwNit1RP4PvU="
   #     - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
-  #     # - ROCKET_LOG_LEVEL="debug"
   #   depends_on:
   #     - database
-
