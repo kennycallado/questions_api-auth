@@ -54,12 +54,12 @@ docker manifest create kennycallado/${package_name}:latest \
   --amend kennycallado/${package_name}:${version}-armv6
 
 # push the manifests
-docker manifest push kennycallado/${package_name}:${version}
-docker manifest push kennycallado/${package_name}:latest
+docker manifest push --purge kennycallado/${package_name}:${version}
+docker manifest push --purge kennycallado/${package_name}:latest
 
-# tag the latest version
-docker tag kennycallado/${package_name}:${version} kennycallado/${package_name}:latest
-docker push kennycallado/${package_name}:latest
+# tag the latest version # I think it has no sense
+# docker tag kennycallado/${package_name}:${version} kennycallado/${package_name}:latest
+# docker push kennycallado/${package_name}:latest
 
 # remove the images
 docker rmi kennycallado/${package_name}:${version}-amd64
