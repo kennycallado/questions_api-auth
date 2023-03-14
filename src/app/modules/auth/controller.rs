@@ -14,7 +14,7 @@ pub fn routes() -> Vec<rocket::Route> {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct AuthUser {
-    pub id: UserInClaims,
+    pub user: UserInClaims,
     pub access_token: String,
 }
 
@@ -37,7 +37,7 @@ pub async fn auth_bypass(cookie: &CookieJar<'_>, id: i32) -> Result<Json<AuthUse
     cookie.add_private(Cookie::new("refresh_token", refresh_token));
 
     let auth_user = AuthUser {
-        id: user_in_claims,
+        user: user_in_claims,
         access_token,
     };
     Ok(Json(auth_user))
@@ -56,7 +56,7 @@ pub async fn auth(cookie: &CookieJar<'_>, claims: RefreshClaims) -> Result<Json<
             cookie.add_private(Cookie::new("refresh_token", refresh_token));
 
             let auth_user = AuthUser {
-                id: user_in_claims,
+                user: user_in_claims,
                 access_token,
             };
 
@@ -94,7 +94,7 @@ pub async fn login(cookie: &CookieJar<'_>, token: String) -> Result<Json<AuthUse
             cookie.add_private(Cookie::new("refresh_token", refresh_token.clone()));
 
             let auth_user = AuthUser {
-                id: user_in_claims,
+                user: user_in_claims,
                 access_token,
             };
 
