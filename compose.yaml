@@ -63,3 +63,4 @@ services:
   #     - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
   #   depends_on:
   #     - database
+  #     - profiles_api # that was important for the migrations
