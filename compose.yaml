@@ -42,7 +42,7 @@ services:
       - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_MIGRATIONS_RUN=false
+      - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_SECRET_KEY="FCJWjbPWd7JqyPx4gUAN+GQusgHm8EGUwNit1RP4PvU="
       - ROCKET_USER_URL="http://users_api:8002/api/v1/user"
     depends_on:
@@ -63,3 +63,4 @@ services:
       - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
     depends_on:
       - database
+      - profiles_api # that was important for the migrations
