@@ -49,6 +49,7 @@ Algunos ficheros deben ser revisados y actualizados para cada proyecto derivado 
   - Servicios extra
 - [ ] Rocket.toml
   - Parámetros de configuración del proyecto
+  - secret_key = `openssl rand -base64 32`
 
 #### Directorio src
 
