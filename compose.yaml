@@ -60,6 +60,23 @@ services:
       - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
+      - ROCKET_FCM_URL="http://fcm_api:8005/api/v1/fcm"
     depends_on:
       - database
       - profiles_api # that was important for the migrations
+      - fcm_api # that was important for the migrations
+
+fcm_api:
+    image: kennycallado/q-api-fcm:latest
+    ports:
+      - "8005:8000"
+    expose:
+      - "8005:8000"
+    environment:
+      - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+    depends_on:
+      - database
