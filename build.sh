@@ -17,6 +17,7 @@ version=$(cat Cargo.toml | grep 'version' | head -1 | awk '{print $3}' | tr -d '
 rm -f Cargo.lock
 
 # Permissions for target folder
+mkdir -p target
 chmod -R o+w target
 
 # Build the binary
