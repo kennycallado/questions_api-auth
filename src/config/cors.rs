@@ -17,7 +17,7 @@ impl Fairing for Cors {
 
     async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
         let origin = ConfigGetter::get_origin_url().unwrap_or("*".to_string());
-         
+
         response.set_header(Header::new("Access-Control-Allow-Origin", origin));
         response.set_header(Header::new(
             "Access-Control-Allow-Methods",

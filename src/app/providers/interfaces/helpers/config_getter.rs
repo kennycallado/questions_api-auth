@@ -3,13 +3,13 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct ConfigGetter {
-    pub fcm_url:        Option<String>,
-    pub form_url:       Option<String>,
+    pub fcm_url: Option<String>,
+    pub form_url: Option<String>,
     pub migrations_run: Option<bool>,
-    pub origin_url:     Option<String>,
-    pub profile_url:    Option<String>,
-    pub secret_key:     Option<String>,
-    pub user_url:       Option<String>,
+    pub origin_url: Option<String>,
+    pub profile_url: Option<String>,
+    pub secret_key: Option<String>,
+    pub user_url: Option<String>,
 }
 
 impl ConfigGetter {
