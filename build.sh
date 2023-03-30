@@ -6,6 +6,7 @@
 # In order to make the images to work, you need to install
 # qemu-user-static in the host machine, because the binary
 # is compiled for a different architecture.
+set -e
 
 platforms=("linux/amd64" "linux/arm64" "linux/arm/v7" "linux/arm/v6")
 
@@ -17,10 +18,11 @@ version=$(cat Cargo.toml | grep 'version' | head -1 | awk '{print $3}' | tr -d '
 rm -f Cargo.lock
 
 # Permissions for target folder
+mkdir -p target
 chmod -R o+w target
 
 # Build the binary
-docker run --rm -it -v "$(pwd)":/home/rust/src ekidd/rust-musl-builder cargo build --release
+docker run --rm -it -v "$(pwd)":/home/rust/src nasqueron/rust-musl-builder cargo build --release
 
 for platform in ${platforms[@]}; do
   echo "Building docker image for: $platform."

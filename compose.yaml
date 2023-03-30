@@ -14,9 +14,9 @@ services:
     command: [ "docker-entrypoint.sh", "-c", "wal_level=logical" ]
 
   # auth_api:
-  #   image: kennycallado/questions_api-auth:v0.1-amd64
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway"
+  #   image: kennycallado/q-api-auth:latest
+  #   # extra_hosts:
+  #   #   - "host.docker.internal:host-gateway"
   #   ports:
   #     - "8003:8000"
   #   expose:
@@ -24,10 +24,9 @@ services:
   #   environment:
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
-  #     - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
-  #     - ROCKET_USER_URL="http://users_api:8002/api/v1/user"
-  #     # - ROCKET_LOG_LEVEL="debug"
-  #     # - ROCKET_USER_URL="http://host.docker.internal:8000/api/v1/user"
+  #     - ROCKET_SECRET_KEY=""
+  #     - ROCKET_PROFILE_URL="http://profiles_api:8000/api/v1/profile"
+  #     - ROCKET_USER_URL="http://users_api:8000/api/v1/user"
   #   depends_on:
   #     - users_api
   #     - profiles_api
@@ -42,8 +41,8 @@ services:
       - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
-      - ROCKET_SECRET_KEY="FCJWjbPWd7JqyPx4gUAN+GQusgHm8EGUwNit1RP4PvU="
       - ROCKET_USER_URL="http://users_api:8002/api/v1/user"
     depends_on:
       - database
@@ -58,9 +57,24 @@ services:
       - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
-      - ROCKET_SECRET_KEY="FCJWjbPWd7JqyPx4gUAN+GQusgHm8EGUwNit1RP4PvU="
       - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
     depends_on:
       - database
       - profiles_api # that was important for the migrations
+
+  # fcm_api:
+  #     image: kennycallado/q-api-fcm:latest
+  #     ports:
+  #       - "8005:8000"
+  #     expose:
+  #       - "8005:8000"
+  #     environment:
+  #       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
+  #       - ROCKET_ADDRESS="0.0.0.0"
+  #       - ROCKET_PORT=8000
+  #       - ROCKET_SECRET_KEY=""
+  #       - ROCKET_MIGRATIONS_RUN=true
+  #     depends_on:
+  #       - database
