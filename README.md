@@ -37,17 +37,17 @@ Algunos ficheros deben ser revisados y actualizados para cada proyecto derivado 
 
 #### Raíz del proyecto
 
-- [ ] .env
+- [X] .env
   - Dirección de la base de datos
-- [ ] Cargo.toml
+- [X] Cargo.toml
   - Nombre del paquete
   - Revisar dependencias
-- [ ] Containerfile
+- [X] Containerfile
   - Nombre del paquete desde Cargo.toml
-- [ ] compose.yaml
+- [X] compose.yaml
   - Variables de entorno
   - Servicios extra
-- [ ] Rocket.toml
+- [X] Rocket.toml
   - Parámetros de configuración del proyecto
 
 #### Directorio src
