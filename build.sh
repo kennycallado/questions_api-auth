@@ -22,7 +22,7 @@ mkdir -p target
 chmod -R o+w target
 
 # Build the binary
-docker run --rm -it -v "$(pwd)":/home/rust/src nasqueron/rust-musl-builder/rust-musl-builder cargo build --release
+docker run --rm -it -v "$(pwd)":/home/rust/src nasqueron/rust-musl-builder cargo build --release
 
 for platform in ${platforms[@]}; do
   echo "Building docker image for: $platform."
