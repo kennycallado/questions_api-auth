@@ -8,7 +8,7 @@ use crate::app::modules::auth::services::helpers;
 use crate::app::providers::interfaces::helpers::claims::UserInClaims;
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![auth_bypass, auth, login_options, login]
+    routes![auth_bypass, auth, login_options, login, logout]
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -104,4 +104,14 @@ pub async fn login(cookie: &CookieJar<'_>, token: String) -> Result<Json<AuthUse
             return Err(e);
         }
     }
+}
+
+#[get("/logout")]
+pub async fn logout(cookie: &CookieJar<'_>, claims: RefreshClaims) -> Status {
+    if let Err(_) = helpers::fcm_token_delete(claims.0.user.id).await {
+        println!("AUTH: logout: fcm_token_delete failed");
+    };
+
+    cookie.remove_private(Cookie::named("refresh_token"));
+    Status::Ok
 }

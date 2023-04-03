@@ -1,7 +1,46 @@
 use rocket::http::Status;
+use serde::{Serialize, Deserialize};
 
 use crate::app::providers::interfaces::helpers::claims::{Claims, UserInClaims};
 use crate::app::providers::interfaces::helpers::config_getter::ConfigGetter;
+
+pub async fn fcm_token_delete(user_id: i32) -> Result<(), Status> {
+    #[derive(Serialize, Deserialize)]
+    struct NewFcmToken {
+        pub user_id: i32,
+        pub token: Option<String>,
+    }
+
+    let robot_token = robot_token_generator().await;
+    if let Err(_) = robot_token {
+        return Err(Status::InternalServerError);
+    }
+    let robot_token = robot_token.unwrap();
+
+    let fcm_api_url = ConfigGetter::get_fcm_url()
+        .unwrap_or("http://localhost:8005/api/v1/fcm".to_string())
+        + "/token/"
+        + user_id.to_string().as_str()
+        + "/user";
+
+    let client = reqwest::Client::new();
+    let res = client
+        .put(&fcm_api_url)
+        .header("Accept", "application/json")
+        .header("Authorization", robot_token)
+        .header("Content-Type", "application/json")
+        .json(&NewFcmToken {
+            user_id,
+            token: None,
+        })
+        .send()
+        .await;
+
+    match res {
+        Ok(_) => Ok(()),
+        Err(_) => Err(Status::InternalServerError),
+    }
+}
 
 pub async fn profile_request(token: String) -> Result<i32, Status> {
     let robot_token = robot_token_generator().await;
