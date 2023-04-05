@@ -1,0 +1,31 @@
+
+GET http://localhost:8000/health
+
+GET http://localhost:8001/health
+
+GET http://localhost:8002/health
+
+# {{{ auth
+
+GET http://localhost:8000/auth/bypass/1
+Accept: application/json
+
+POST http://localhost:8000/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "admin"
+}
+
+GET http://localhost:8000/auth
+Accept: application/json
+Content-Type: application/json
+Cookie: <refresh_token>
+
+GET http://localhost:8000/auth/logout
+Accept: application/json
+Content-Type: application/json
+Cookie: <refresh_token>
+
+# }}}
