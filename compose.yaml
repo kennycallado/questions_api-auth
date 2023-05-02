@@ -99,7 +99,7 @@ services:
 # {{{ questions - answers
   # {{{ questions
   questions_api:
-    image: kennycallado/q-api-questions:latest
+    image: kennycallado/q-api-answers:latest
     ports:
       - "8011:8000"
     expose:
