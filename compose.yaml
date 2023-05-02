@@ -1,8 +1,12 @@
 version: "3.1"
 
 # Replace secret_key:
-# 10,$s/SECRET_KEY=""/SECRET_KEY=""
-# 10,$s/SECRET_KEY="*.*"/SECRET_KEY=""
+# 11,$s/SECRET_KEY=""/SECRET_KEY=""
+# 11,$s/SECRET_KEY="*.*"/SECRET_KEY=""
+#
+# Replace all the database credentials
+# 9s/entity/<...>/g
+# 11,$s/base:base@database\/base/entity:entity@database\/entity/g
 
 services:
   database:
