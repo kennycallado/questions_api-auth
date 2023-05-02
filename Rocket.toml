@@ -1,3 +1,6 @@
+# Generate secret key and copy to clipboard
+# :redir @* | !openssl rand -base64 32 | tr -d '\n' | xclip -selection clipboard
+
 [default]
 ident      = "questions_api-base"
 port       = 8000

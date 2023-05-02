@@ -1,9 +1,7 @@
 version: "3.1"
 
-# replace secret_key:
-# openssl rand -base64 32
-#
-# 10,$s/SECRET_KEY=""/SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+# Replace secret_key:
+# 10,$s/SECRET_KEY=""/SECRET_KEY=""
 # 10,$s/SECRET_KEY="*.*"/SECRET_KEY=""
 
 services:
@@ -29,7 +27,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
     depends_on:
@@ -47,7 +45,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
     depends_on:
@@ -65,7 +63,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
     depends_on:
@@ -85,7 +83,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_PROFILE_URL="http://profiles_api:8000/api/v1/profile"
       - ROCKET_USER_URL="http://users_api:8000/api/v1/user"
     depends_on:
@@ -105,7 +103,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
     depends_on:
@@ -122,7 +120,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
     depends_on:
@@ -141,7 +139,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
       - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
@@ -160,7 +158,7 @@ services:
   #   environment:
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
-  #     - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+  #     - ROCKET_SECRET_KEY=""
   #     - ROCKET_MIGRATIONS_RUN=true
   #     - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
   #     - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
@@ -179,7 +177,7 @@ services:
   #   environment:
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
-  #     - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+  #     - ROCKET_SECRET_KEY=""
   #     - ROCKET_MIGRATIONS_RUN=true
   #     - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
   #     - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
@@ -200,7 +198,7 @@ services:
     environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
-      - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+      - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
       - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
       - ROCKET_SLIDE_URL="http://slides_api:8000/api/v1/slide"
@@ -219,7 +217,7 @@ services:
   #   environment:
   #     - ROCKET_ADDRESS="0.0.0.0"
   #     - ROCKET_PORT=8000
-  #     - ROCKET_SECRET_KEY="9dDstPz394gp8CsRMMvnw0inG6tXHssSukeoO3Ivigk="
+  #     - ROCKET_SECRET_KEY=""
   #     - ROCKET_MIGRATIONS_RUN=true
   #     - ROCKET_DATABASES={questions={url="postgres://base:base@database/base"}}
   #   depends_on:
