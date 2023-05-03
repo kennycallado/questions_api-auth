@@ -17,7 +17,7 @@ pub async fn fcm_token_delete(user_id: i32) -> Result<(), Status> {
     }
     let robot_token = robot_token.unwrap();
 
-    let fcm_api_url = ConfigGetter::get_fcm_url()
+    let fcm_api_url = ConfigGetter::get_entity_url("fcm")
         .unwrap_or("http://localhost:8005/api/v1/fcm".to_string())
         + "/token/"
         + user_id.to_string().as_str()
@@ -49,7 +49,7 @@ pub async fn profile_request(token: String) -> Result<i32, Status> {
     }
     let robot_token = robot_token.unwrap();
 
-    let profile_api_url = ConfigGetter::get_profile_url()
+    let profile_api_url = ConfigGetter::get_entity_url("profile")
         .unwrap_or("http://localhost:8001/api/v1/profile".to_string())
         + "/token";
 
@@ -84,7 +84,7 @@ pub async fn user_request(user_id: i32) -> Result<UserInClaims, Status> {
     let robot_token = robot_token.unwrap();
 
     // Prepare the url
-    let user_url = ConfigGetter::get_user_url()
+    let user_url = ConfigGetter::get_entity_url("user")
         .unwrap_or("http://localhost:8002/api/v1/user".to_string())
         + "/"
         + user_id.to_string().as_str()
