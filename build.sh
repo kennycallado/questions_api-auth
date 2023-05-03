@@ -6,6 +6,9 @@
 # In order to make the images to work, you need to install
 # qemu-user-static in the host machine, because the binary
 # is compiled for a different architecture.
+#
+# Introduce the option to build the stable version. To do so, run:
+# ./build.sh stable
 set -e
 
 platforms=("linux/amd64" "linux/arm64" "linux/arm/v7" "linux/arm/v6")
@@ -54,6 +57,15 @@ docker manifest create kennycallado/${package_name}:latest \
   --amend kennycallado/${package_name}:${version}-arm64 \
   --amend kennycallado/${package_name}:${version}-armv7 \
   --amend kennycallado/${package_name}:${version}-armv6
+
+# manifest for stable version
+if [ "$1" == "stable" ]; then
+docker manifest create kennycallado/${package_name}:stable \
+  --amend kennycallado/${package_name}:${version}-amd64 \
+  --amend kennycallado/${package_name}:${version}-arm64 \
+  --amend kennycallado/${package_name}:${version}-armv7 \
+  --amend kennycallado/${package_name}:${version}-armv6
+fi
 
 # push the manifests
 docker manifest push --purge kennycallado/${package_name}:${version}

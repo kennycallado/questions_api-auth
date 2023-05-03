@@ -1,5 +1,13 @@
 version: "3.1"
 
+# Replace secret_key:
+# 11,$s/SECRET_KEY=""/SECRET_KEY=""
+# 11,$s/SECRET_KEY="*.*"/SECRET_KEY=""
+#
+# Replace all the database credentials
+# 9s/entity/auth/g
+# 11,$s/base:base@database\/base/auth:auth@database\/auth/g
+
 services:
   database:
     image: postgres:13-alpine
@@ -11,8 +19,63 @@ services:
       POSTGRES_DB: auth
       POSTGRES_USER: auth
       POSTGRES_PASSWORD: auth
-    command: [ "docker-entrypoint.sh", "-c", "wal_level=logical" ]
+    command: [ "docker-entrypoint.sh", "-c", "wal_level=logical", "-c", "max_connections=300" ]
 
+# {{{ fcm
+  fcm_api:
+    image: kennycallado/q-api-fcm:latest
+    ports:
+      - "8005:8000"
+    expose:
+      - "8005:8000"
+    environment:
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+    depends_on:
+      - database
+# }}}
+
+# {{{ profiles - users - auth
+  # {{{ profiles
+  profiles_api:
+    image: kennycallado/q-api-profiles:latest
+    ports:
+      - "8001:8000"
+    expose:
+      - "8001:8000"
+    environment:
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+    depends_on:
+      - database
+      - fcm_api 
+  # }}}
+  
+  # {{{ users
+  users_api:
+    image: kennycallado/q-api-users:latest
+    ports:
+      - "8002:8000"
+    expose:
+      - "8002:8000"
+    environment:
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+    depends_on:
+      - database
+      - profiles_api
+  # }}}
+
+  # # {{{ auth
   # auth_api:
   #   image: kennycallado/q-api-auth:latest
   #   # extra_hosts:
@@ -30,51 +93,138 @@ services:
   #   depends_on:
   #     - users_api
   #     - profiles_api
+  # # }}}
+# }}}
 
-  profiles_api:
-    image: kennycallado/q-api-profiles:latest
+# {{{ questions - answers
+  # {{{ questions
+  questions_api:
+    image: kennycallado/q-api-answers:latest
     ports:
-      - "8001:8000"
+      - "8011:8000"
     expose:
-      - "8001:8000"
+      - "8011:8000"
     environment:
-      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
       - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
-      - ROCKET_USER_URL="http://users_api:8002/api/v1/user"
-    depends_on:
-      - database
-
-  users_api:
-    image: kennycallado/q-api-users:latest
-    ports:
-      - "8002:8000"
-    expose:
-      - "8002:8000"
-    environment:
       - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+    depends_on:
+      - users_api
+  # }}}
+
+  # {{{ ansers
+  answers_api:
+    image: kennycallado/q-api-questions:latest
+    ports:
+      - "8012:8000"
+    expose:
+      - "8012:8000"
+    environment:
       - ROCKET_ADDRESS="0.0.0.0"
       - ROCKET_PORT=8000
       - ROCKET_SECRET_KEY=""
       - ROCKET_MIGRATIONS_RUN=true
-      - ROCKET_PROFILE_URL="http://profiles_api:8001/api/v1/profile"
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
     depends_on:
-      - database
-      - profiles_api # that was important for the migrations
+      - questions_api
+  # }}}
+# }}}
 
-  fcm_api:
-      image: kennycallado/q-api-fcm:latest
-      ports:
-        - "8005:8000"
-      expose:
-        - "8005:8000"
-      environment:
-        - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
-        - ROCKET_ADDRESS="0.0.0.0"
-        - ROCKET_PORT=8000
-        - ROCKET_SECRET_KEY=""
-        - ROCKET_MIGRATIONS_RUN=true
-      depends_on:
-        - database
+# {{{ slides - forms - externals
+  # {{{ slides
+  slides_api:
+    image: kennycallado/q-api-slides:latest
+    ports:
+      - "8021:8000"
+    expose:
+      - "8021:8000"
+    environment:
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+      - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
+    depends_on:
+      - questions_api
+      - answers_api
+  # }}}
+  
+  # # {{{ forms
+  # forms_api:
+  #   image: kennycallado/q-api-forms:latest
+  #   ports:
+  #     - "8022:8000"
+  #   expose:
+  #     - "8022:8000"
+  #   environment:
+  #     - ROCKET_ADDRESS="0.0.0.0"
+  #     - ROCKET_PORT=8000
+  #     - ROCKET_SECRET_KEY=""
+  #     - ROCKET_MIGRATIONS_RUN=true
+  #     - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+  #     - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
+  #   depends_on:
+  #     - questions_api
+  #     - slides_api
+  # # }}}
+  # 
+  # # {{{ externals
+  # externals_api:
+  #   image: kennycallado/q-api-externals:latest
+  #   ports:
+  #     - "8023:8000"
+  #   expose:
+  #     - "8023:8000"
+  #   environment:
+  #     - ROCKET_ADDRESS="0.0.0.0"
+  #     - ROCKET_PORT=8000
+  #     - ROCKET_SECRET_KEY=""
+  #     - ROCKET_MIGRATIONS_RUN=true
+  #     - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+  #     - ROCKET_QUESTION_URL="http://questions_api:8000/api/v1/question"
+  #   depends_on:
+  #     - questions_api
+  #     - forms_api
+  # # }}}
+# }}}
+
+# {{{ resources - papers
+  # {{{ resources
+  resources_api:
+    image: kennycallado/q-api-resources:latest
+    ports:
+      - "8031:8000"
+    expose:
+      - "8031:8000"
+    environment:
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+      - ROCKET_SECRET_KEY=""
+      - ROCKET_MIGRATIONS_RUN=true
+      - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+      - ROCKET_SLIDE_URL="http://slides_api:8000/api/v1/slide"
+      - ROCKET_FORM_URL="http://forms_api:8000/api/v1/form"
+      - ROCKET_EXTERNAL_URL="http://externals_api:8000/api/v1/external"
+    depends_on:
+      - slides_api
+  # }}}
+  # # {{{ papers
+  # papers_api:
+  #   image: kennycallado/q-api-papers:latest
+  #   ports:
+  #     - "8032:8000"
+  #   expose:
+  #     - "8032:8000"
+  #   environment:
+  #     - ROCKET_ADDRESS="0.0.0.0"
+  #     - ROCKET_PORT=8000
+  #     - ROCKET_SECRET_KEY=""
+  #     - ROCKET_MIGRATIONS_RUN=true
+  #     - ROCKET_DATABASES={questions={url="postgres://auth:auth@database/auth"}}
+  #   depends_on:
+  #     - resources_api
+  # # }}}
+# }}}
