@@ -25,8 +25,8 @@ pub struct ConfigGetter {
 }
 
 impl ConfigGetter {
-    pub fn get_entity_url(entity: String) -> Option<String> {
-        match entity.as_str() {
+    pub fn get_entity_url(entity: &str) -> Option<String> {
+        match entity {
             "profile" => ConfigGetter::get_profile_url(),
             "user" => ConfigGetter::get_user_url(),
             "auth" => ConfigGetter::get_auth_url(),
